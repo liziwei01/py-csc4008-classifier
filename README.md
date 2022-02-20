@@ -2,7 +2,7 @@
  * @Author: liziwei01
  * @Date: 2021-12-29 20:13:17
  * @LastEditors: liziwei01
- * @LastEditTime: 2022-02-20 16:45:24
+ * @LastEditTime: 2022-02-20 20:02:40
  * @Description: README.md
 -->
 # Py-csc4008-knn
@@ -13,12 +13,12 @@ This is a CSC4008 assignment base written by liziwei&yikerui from CUHK(SZ)
 
 ## Run
 
-```text
-scipy                        1.7.3
-numpy                        1.21.4
-```
-
+```bash
+# scipy                        1.7.3
+# numpy                        1.21.4
+# python                       3.9.5
 python main.py
+```
 
 ## License
 
