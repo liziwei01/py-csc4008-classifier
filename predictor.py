@@ -2,7 +2,7 @@
 Author: liziwei01
 Date: 2022-02-18 21:09:15
 LastEditors: liziwei01
-LastEditTime: 2022-02-18 21:53:47
+LastEditTime: 2022-02-20 17:09:56
 Description: file content
 '''
 from collections import defaultdict, Counter
@@ -10,26 +10,36 @@ from loader import MatLoader
 
 class Predictor:
     knn_neighbor = 5
-    g_test_bad = defaultdict(int)
-    g_test_good = defaultdict(int)
     
     def __init__(self, p_loader=MatLoader):
         self.loader = p_loader
 
     def do(self):
         self.loader.do()
+        self.test()
 
     def test(self):
-        # for foldername in self.loader.foldernames:
-        foldername = 'ATNT face/'
-        test_data = self.loader.data[foldername]['test']
-        for d, vectors in test_data.items():
-            for v in vectors:
-                predict_digit = self.predict(v)
-                if predict_digit == d:
-                    self.g_test_good[d] += 1
-                else:
-                    self.g_test_bad[d] += 1
+        for foldername in self.loader.foldernames:
+            test_data = self.loader.data[foldername]['test']
+            g_test_bad = defaultdict(int)
+            g_test_good = defaultdict(int)
+            for d, vectors in test_data.items():
+                for v in vectors:
+                    predict_digit = self.predict(v)
+                    if predict_digit == d:
+                        g_test_good[d] += 1
+                    else:
+                        g_test_bad[d] += 1
+            self.analyze(foldername, g_test_good, g_test_bad)
+            
+    def analyze(self, p_foldername, g_test_good, g_test_bad):
+        print('{}'.format(p_foldername))
+        print('good: {}'.format(g_test_good))
+        print('bad: {}'.format(g_test_bad))
+        good_sum = sum(g_test_good.values())
+        bad_sum = sum(g_test_bad.values())
+        print('accuracy: {}'.format(round(good_sum / (good_sum+bad_sum), 2)))
+        print('\n')
 
     def predict(self, p_v):
         return self.knn_by_closest(p_v)
